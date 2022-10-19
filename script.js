@@ -46,8 +46,6 @@ const gameBoard = (function () {
         // console.log(board[0]);
         // console.log(board[1]);
         // console.log(board[2]);
-
-        checkWinner();
       };
     });
   };
@@ -72,13 +70,24 @@ const gameBoard = (function () {
       }
       //   verticalwinner;
     });
-
+    // TODO: Create logic just to check answers if there are x numbers of elements in row
     // TODO: Apply this to every row
     horizontalX = 0;
     for (let i = 0; i < board.length; i++) {
       if (board[i][0] == "X") {
         horizontalX++;
-        if (horizontalX === 3) console.log("victory!");
+        if (horizontalX === 3) {
+          console.log("victory!");
+        }
+      } else if (board[i][1] == "X") {
+        horizontalX++;
+        console.log(horizontalX);
+        if (horizontalX === 3) {
+          console.log("victory!");
+        }
+      } else if ((board[i][2] = "X")) {
+        horizontalX++;
+        // if (horizontalX === 3) console.log("victory!");
       }
     }
 
