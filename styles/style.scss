@@ -1,39 +1,39 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 // font-family: 'Inter', sans-serif;
 @mixin flexCenter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 main {
-    height: 100vh;
+  height: 100vh;
+  @include flexCenter();
+  font-family: "Lexend Deca", sans-serif;
+  background-color: gainsboro;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 500px;
+  height: 500px;
+
+  &__field {
+    border: 1px solid black;
     @include flexCenter();
-font-family: 'Lexend Deca', sans-serif;
-
-}
-
-.gameboard{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    width: 500px;
-    height: 500px;
-
-
-    &__field{
-        border: 1px solid black;
-        @include flexCenter();
-        font-size: 8rem;
-        &:hover{
-            background-color: blanchedalmond;
-            cursor: pointer;
-
-        }
+    font-size: 8rem;
+    &:hover {
+      background-color: blanchedalmond;
+      cursor: pointer;
     }
+  }
 }
+
+// TODO: try to add animations
