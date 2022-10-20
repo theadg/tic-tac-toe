@@ -5,17 +5,39 @@
 }
 
 // font-family: 'Inter', sans-serif;
+
+$color-background: #006d77;
+$color-hover: #62c4ba;
+$color-primary: #74f2e5;
+$color-secondary: #83c5be;
+$color-heading: #edf6f9;
+
+$border-width: 12px;
 @mixin flexCenter {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+@mixin borderStyle {
+  border-width: 5px;
+  border-color: $color-secondary;
+}
 main {
   height: 100vh;
   @include flexCenter();
+  flex-direction: column;
   font-family: "Lexend Deca", sans-serif;
-  background-color: gainsboro;
+  gap: 2em;
+  background-color: $color-background;
+
+  color: $color-primary;
+  .gameboard__title {
+    font-family: "Inter", sans-serif;
+    color: $color-heading;
+    font-weight: bolder;
+    font-size: 4rem;
+  }
 }
 
 .gameboard {
@@ -25,15 +47,141 @@ main {
   width: 500px;
   height: 500px;
 
+  // TODO: finalize game border
   &__field {
-    border: 1px solid black;
+    // border: 1px solid black;
     @include flexCenter();
-    font-size: 8rem;
+    font-size: 7rem;
     &:hover {
-      background-color: blanchedalmond;
+      // background-color: blanchedalmond;
       cursor: pointer;
+    }
+  }
+
+  // TODO: smoothen out border
+  &__border--right {
+    border-right: $border-width solid $color-secondary;
+  }
+
+  &__border--left {
+    border-left: $border-width solid $color-secondary;
+  }
+
+  &__border--middle {
+    border-top: $border-width solid $color-secondary;
+    border-bottom: $border-width solid $color-secondary;
+  }
+
+  &__footer {
+    width: 500px;
+    @include flexCenter();
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+
+  &__button {
+    appearance: none;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    min-width: 45%;
+    padding: 0.5em 1em;
+    background-color: $color-primary;
+    color: $color-background;
+    font-weight: bold;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $color-hover;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &--double {
+      min-height: 120px;
+      display: flex;
+      flex-wrap: wrap;
+      width: 40%;
+      &:hover {
+        background-color: $color-primary;
+      }
+    }
+  }
+
+  &__start {
+    margin: 0 auto;
+  }
+  &__input {
+    appearance: none;
+    border: none;
+    // padding: 0.5rem 1rem;
+    font-family: "Inter", sans-serif;
+    font-size: 1.25rem;
+    width: 100%;
+    height: 2rem;
+    background-color: $color-primary;
+    border-bottom: 5px solid $color-background;
+    color: $color-background;
+    font-weight: bold;
+    &::placeholder {
+      opacity: 0.5;
+    }
+    &:focus {
+      // border: none;
+      outline: none;
+    }
+  }
+
+  &__symbol--container {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &__symbol {
+    appearance: none;
+    border: none;
+    background-color: #006d77;
+    color: $color-primary;
+    font-size: 1.5rem;
+    padding: 0 0.65em;
+    font-weight: bold;
+    width: 50px;
+    text-align: center;
+    border-radius: 100%;
+    opacity: 0.5;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--active {
+      opacity: 1;
+    }
+    &--submit {
+      appearance: none;
+      border: none;
+      background-color: $color-primary;
+      justify-self: flex-end;
+
+      &:disabled {
+        opacity: 0.5;
+      }
     }
   }
 }
 
+.material-symbols-outlined {
+  font-size: 36px !important;
+  color: $color-background;
+  font-variation-settings: "FILL" 1;
+}
+
+.hidden {
+  display: none;
+}
 // TODO: try to add animations
