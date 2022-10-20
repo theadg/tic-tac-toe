@@ -123,7 +123,51 @@
           Start Game
         </button>
       </footer>
-      <!-- TODO: Show Player1 and Player2 -->
+
+      <footer class="gameboard__footer hidden" id="playerGameLabel">
+        <div
+          class="gameboard__button gameboard__button--single"
+          id="playerOneMainLabel"
+        >
+          <input
+            type="text"
+            name="playerOne"
+            id="playerOneNameLabel"
+            class="gameboard__input gameboard__input--smaller"
+          />
+          <div class="gameboard__symbol--container">
+            <button
+              type="button"
+              class="gameboard__symbol gameboard__symbol--active gameboard__symbol--label"
+              id="playerOneSymbolLabel"
+            >
+              X
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="gameboard__button gameboard__button--single tanginangto"
+          id="playerTwoMainLabel"
+        >
+          <input
+            type="text"
+            name="playerOne"
+            id="playerTwoNameLabel"
+            class="gameboard__input gameboard__input--smaller"
+          />
+          <div class="gameboard__symbol--container">
+            <button
+              type="button"
+              class="gameboard__symbol gameboard__symbol--active gameboard__symbol--label"
+              id="playerTwoSymbolLabel"
+            >
+              O
+            </button>
+          </div>
+        </div>
+      </footer>
+
       <!-- TODO: Display Winner/Tie -->
     </main>
   </body>
