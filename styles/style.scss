@@ -88,7 +88,7 @@ main {
     font-family: "Inter", sans-serif;
     font-size: 1.5rem;
     min-width: 45%;
-    padding: 0.5em 1em;
+    padding: 0.5em 0.75em;
     background-color: $color-primary;
     color: $color-background;
     font-weight: bold;
@@ -101,7 +101,16 @@ main {
     &:disabled {
       opacity: 0.5;
     }
-
+    &--single {
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 40%;
+      &:hover {
+        background-color: $color-primary;
+      }
+    }
     &--double {
       min-height: 120px;
       display: flex;
@@ -135,6 +144,10 @@ main {
       // border: none;
       outline: none;
     }
+
+    &--smaller {
+      width: 70%;
+    }
   }
 
   &__symbol--container {
@@ -159,6 +172,9 @@ main {
       cursor: pointer;
     }
 
+    &--label {
+      height: 50px;
+    }
     &--active {
       opacity: 1;
     }
@@ -183,5 +199,13 @@ main {
 
 .hidden {
   display: none;
+}
+
+.show {
+  opacity: 1 !important;
+}
+#playerOneMainLabel,
+#playerTwoMainLabel {
+  opacity: 0.5;
 }
 // TODO: try to add animations

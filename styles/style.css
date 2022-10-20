@@ -67,7 +67,7 @@ main .gameboard__title {
   font-family: "Inter", sans-serif;
   font-size: 1.5rem;
   min-width: 45%;
-  padding: 0.5em 1em;
+  padding: 0.5em 0.75em;
   background-color: #74f2e5;
   color: #006d77;
   font-weight: bold;
@@ -78,6 +78,16 @@ main .gameboard__title {
 }
 .gameboard__button:disabled {
   opacity: 0.5;
+}
+.gameboard__button--single {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 40%;
+}
+.gameboard__button--single:hover {
+  background-color: #74f2e5;
 }
 .gameboard__button--double {
   min-height: 120px;
@@ -117,6 +127,9 @@ main .gameboard__title {
 .gameboard__input:focus {
   outline: none;
 }
+.gameboard__input--smaller {
+  width: 70%;
+}
 .gameboard__symbol--container {
   display: flex;
   gap: 1rem;
@@ -138,6 +151,9 @@ main .gameboard__title {
 }
 .gameboard__symbol:hover {
   cursor: pointer;
+}
+.gameboard__symbol--label {
+  height: 50px;
 }
 .gameboard__symbol--active {
   opacity: 1;
@@ -162,4 +178,13 @@ main .gameboard__title {
 
 .hidden {
   display: none;
+}
+
+.show {
+  opacity: 1 !important;
+}
+
+#playerOneMainLabel,
+#playerTwoMainLabel {
+  opacity: 0.5;
 }/*# sourceMappingURL=style.css.map */
