@@ -17,23 +17,112 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lexend+Deca&display=swap"
       rel="stylesheet"
     />
+    <!-- link icon -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
   </head>
   <body>
     <!-- TODO: Finalize UI -->
 
     <main>
+      <h1 class="gameboard__title">Tic Tac Toe</h1>
       <section class="gameboard">
-        <div class="gameboard__field row--1"></div>
-        <div class="gameboard__field row--1"></div>
-        <div class="gameboard__field row--1"></div>
-        <div class="gameboard__field row--2"></div>
-        <div class="gameboard__field row--2"></div>
-        <div class="gameboard__field row--2"></div>
-        <div class="gameboard__field row--3"></div>
-        <div class="gameboard__field row--3"></div>
-        <div class="gameboard__field row--3"></div>
+        <div class="gameboard__field gameboard__border--right"></div>
+        <div class="gameboard__field"></div>
+        <div class="gameboard__field gameboard__border--left"></div>
+        <div
+          class="gameboard__field gameboard__border--right gameboard__border--middle"
+        ></div>
+        <div class="gameboard__field gameboard__border--middle"></div>
+        <div
+          class="gameboard__field gameboard__border--left gameboard__border--middle"
+        ></div>
+        <div class="gameboard__field gameboard__border--right"></div>
+        <div class="gameboard__field"></div>
+        <div class="gameboard__field gameboard__border--left"></div>
       </section>
+      <footer class="gameboard__footer" id="playerGameMenu">
+        <button type="button" class="gameboard__button" id="modeTwoPlayers">
+          2 Players
+        </button>
+        <button type="button" class="gameboard__button" id="modeAI">AI</button>
+      </footer>
 
+      <footer class="gameboard__footer hidden" id="playerInformation">
+        <div
+          class="gameboard__button gameboard__button--double"
+          id="menuTwoPlayers"
+        >
+          <input
+            type="text"
+            name="playerOne"
+            id="playerOneName"
+            class="gameboard__input"
+            placeholder="Player 1 Name"
+          />
+          <div class="gameboard__symbol--container">
+            <button
+              type="button"
+              class="gameboard__symbol gameboard__symbol--active"
+              id="playerOneX"
+            >
+              X
+            </button>
+            <button type="button" class="gameboard__symbol" id="playerOneO">
+              O
+            </button>
+            <button
+              type="button"
+              class="gameboard__symbol--submit material-symbols-outlined"
+              id="playerOneSubmit"
+            >
+              check_circle
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="gameboard__button gameboard__button--double"
+          id="modeTwoPlayers"
+        >
+          <input
+            type="text"
+            name="playerTwo"
+            id="playerTwoName"
+            class="gameboard__input"
+            placeholder="Player 2 Name"
+          />
+          <div class="gameboard__symbol--container">
+            <button type="button" class="gameboard__symbol" id="playerTwoX">
+              X
+            </button>
+            <button
+              type="button"
+              class="gameboard__symbol gameboard__symbol--active"
+              id="playerTwoO"
+            >
+              O
+            </button>
+            <button
+              type="button"
+              class="gameboard__symbol--submit material-symbols-outlined"
+              id="playerTwoSubmit"
+            >
+              check_circle
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="gameboard__button gameboard__start"
+          id="startGameButton"
+        >
+          Start Game
+        </button>
+      </footer>
       <!-- TODO: Show Player1 and Player2 -->
       <!-- TODO: Display Winner/Tie -->
     </main>
