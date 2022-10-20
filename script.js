@@ -1,3 +1,4 @@
+// Module for the GameBoard
 const gameBoard = (function () {
   let board = [
     ["", "", ""],
@@ -6,9 +7,10 @@ const gameBoard = (function () {
   ];
   let currentSymbol = "X";
   let prevSymbol = "";
-  const gameBoardRowOne = Array.from(document.querySelectorAll(".row--1"));
-  const gameBoardRowTwo = Array.from(document.querySelectorAll(".row--2"));
-  const gameBoardRowThree = Array.from(document.querySelectorAll(".row--3"));
+  // const gameBoardRowOne = Array.from(document.querySelectorAll(".row--1"));
+  // const gameBoardRowTwo = Array.from(document.querySelectorAll(".row--2"));
+  // const gameBoardRowThree = Array.from(document.querySelectorAll(".row--3"));
+
   const gameBoardPieces = Array.from(
     document.querySelectorAll(".gameboard__field")
   );
@@ -123,4 +125,136 @@ const gameBoard = (function () {
   return { addClick, checkWinner };
 })();
 
+//Module for player info
+const playerInfo = (function () {
+  const playerOneX = document.querySelector("#playerOneX");
+  const playerOneO = document.querySelector("#playerOneO");
+  const playerTwoX = document.querySelector("#playerTwoX");
+  const playerTwoO = document.querySelector("#playerTwoO");
+
+  const playerOneName = document.querySelector("#playerOneName");
+  const playerTwoName = document.querySelector("#playerTwoName");
+
+  const playerOneSubmit = document.querySelector("#playerOneSubmit");
+  const playerTwoSubmit = document.querySelector("#playerTwoSubmit");
+  playerOneSubmit.disabled = true;
+  playerTwoSubmit.disabled = true;
+
+  let playerOneSymbol = "X",
+    playerTwoSymbol = "O";
+
+  const setActiveSymbolXO = () => {
+    playerOneSymbol = "X";
+    playerTwoSymbol = "O";
+    playerOneX.classList.add("gameboard__symbol--active");
+    playerOneO.classList.remove("gameboard__symbol--active");
+
+    playerTwoO.classList.add("gameboard__symbol--active");
+    playerTwoX.classList.remove("gameboard__symbol--active");
+  };
+
+  const setActiveSymbolOX = () => {
+    playerOneSymbol = "O";
+    playerTwoSymbol = "X";
+    playerOneX.classList.remove("gameboard__symbol--active");
+    playerOneO.classList.add("gameboard__symbol--active");
+
+    playerTwoX.classList.add("gameboard__symbol--active");
+    playerTwoO.classList.remove("gameboard__symbol--active");
+  };
+  const activeSymbol = () => {
+    playerOneX.onclick = () => {
+      setActiveSymbolXO();
+    };
+
+    playerOneO.onclick = () => {
+      setActiveSymbolOX();
+    };
+
+    playerTwoX.onclick = () => {
+      setActiveSymbolOX();
+    };
+
+    playerTwoO.onclick = () => {
+      setActiveSymbolOX();
+    };
+  };
+
+  const createPlayer = (playerName, playerSymbol) => {
+    return { playerName, playerSymbol };
+  };
+
+  const playerVerify = () => {
+    if (!playerOneName.value) {
+      playerOneSubmit.disabled = true;
+      setStartGameButton();
+    }
+
+    if (!playerTwoName.value) {
+      playerTwoSubmit.disabled = true;
+      setStartGameButton();
+    }
+
+    playerOneName.oninput = () => {
+      if (playerOneName.value) {
+        playerOneSubmit.disabled = false;
+        setStartGameButton();
+      } else {
+        playerOneSubmit.disabled = true;
+        setStartGameButton();
+      }
+    };
+
+    playerTwoName.oninput = () => {
+      if (playerTwoName.value) {
+        playerTwoSubmit.disabled = false;
+        setStartGameButton();
+      } else {
+        playerTwoSubmit.disabled = true;
+        setStartGameButton();
+      }
+    };
+  };
+
+  const playerOne = createPlayer(playerOneName.value, playerOneSymbol);
+  const playerTwo = createPlayer(playerTwoName.value, playerTwoSymbol);
+
+  const startGameButton = document.querySelector("#startGameButton");
+  startGameButton.disabled = true;
+
+  const setStartGameButton = () => {
+    if (
+      playerOneSubmit.disabled === true ||
+      playerTwoSubmit.disabled === true
+    ) {
+      startGameButton.disabled = true;
+    } else if (
+      playerOneSubmit.disabled === false &&
+      playerTwoSubmit.disabled === false
+    ) {
+      startGameButton.disabled = false;
+    }
+  };
+
+  return { activeSymbol, playerVerify, createPlayer, playerOne, playerTwo };
+})();
+
+const Player = (playerName, playerSymbol) => {
+  return { playerName, playerSymbol };
+};
+
+const boardMenu = (function () {
+  const modeTwoPlayers = document.querySelector("#modeTwoPlayers");
+  const playerGameMenu = document.querySelector("#playerGameMenu");
+  const playerInformation = document.querySelector("#playerInformation");
+
+  modeTwoPlayers.onclick = () => {
+    playerGameMenu.classList.toggle("hidden");
+    playerInformation.classList.remove("hidden");
+    console.log(menuTwoPlayers);
+  };
+})();
+
+playerInfo.playerVerify();
+playerInfo.activeSymbol();
 gameBoard.addClick();
