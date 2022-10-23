@@ -1,4 +1,3 @@
-//Module for player info
 const playerInfo = (function () {
   const playerOneX = document.querySelector("#playerOneX");
   const playerOneO = document.querySelector("#playerOneO");
@@ -10,12 +9,9 @@ const playerInfo = (function () {
 
   const playerOneSubmit = document.querySelector("#playerOneSubmit");
   const playerTwoSubmit = document.querySelector("#playerTwoSubmit");
-  let infoSubmit = false;
   playerOneSubmit.disabled = true;
   playerTwoSubmit.disabled = true;
 
-  // let playerOneSymbol = "X",
-  //   playerTwoSymbol = "O";
   let playerOneSymbol = "X",
     playerTwoSymbol = "O";
 
@@ -105,7 +101,6 @@ const playerInfo = (function () {
   let playerOne = createPlayer(playerOneName.value, playerOneSymbol);
   let playerTwo = createPlayer(playerTwoName.value, playerTwoSymbol);
 
-  // let playerOne, playerTwo;
   const startGameButton = document.querySelector("#startGameButton");
   startGameButton.disabled = true;
 
@@ -127,9 +122,7 @@ const playerInfo = (function () {
     playerOne.playerName = playerOneName.value;
     playerTwo.playerName = playerTwoName.value;
   };
-  // startGameButton.onclick = () => {
 
-  // };
   const createNewPlayersAI = () => {
     playerOne.playerName = "You";
     playerOne.playerSymbol = "X";
@@ -150,7 +143,6 @@ const playerInfo = (function () {
   };
 })();
 
-// Module for the GameBoard
 const gameBoard = (function () {
   let board = [
     ["", "", ""],
@@ -210,7 +202,6 @@ const gameBoard = (function () {
     gameStatusBarSymbol.textContent = playerOne.playerSymbol;
   };
 
-  // game Status Bar
   const gameStatusBar = document.querySelector("#gameStatusBar");
   const gameStatusBarText = document.querySelector("#gameStatusBarText");
   const gameStatusBarSymbol = document.querySelector("#gameStatusBarSymbol");
@@ -314,7 +305,6 @@ const gameBoard = (function () {
             tieCount++;
             console.log(`Tie Count: ${tieCount}`);
             if (tieCount > 3) {
-              // alert("tied");
               return;
             }
           }
@@ -335,12 +325,11 @@ const gameBoard = (function () {
 
   const checkAIWinner = () => {
     prevSymbol = "X";
-    let tieCount = 0;
 
     let colOneElements = 0,
       colTwoElements = 0,
       colThreeElements = 0;
-    //  vertical winner
+
     console.log(currentSymbol, prevSymbol);
     for (let i = 0; i < board.length; i++) {
       if (board[i][0] === "X") {
@@ -367,7 +356,6 @@ const gameBoard = (function () {
       }
     }
 
-    // diagonal winner
     if (
       (board[0][0] === prevSymbol &&
         board[1][1] === prevSymbol &&
@@ -416,12 +404,12 @@ const gameBoard = (function () {
       } else {
         do {
           getLegitNumbers();
-          // console.log(arrIndex, elemIndex);
+
           console.table(board);
         } while (board[arrIndex][elemIndex] !== "");
 
         board[arrIndex].splice(elemIndex, 1, "O");
-        // console.table(board);
+
         if (arrIndex === 0) {
           setTimeout(
             () => ([...gameBoardRowOne][elemIndex].textContent = "O"),
@@ -439,11 +427,8 @@ const gameBoard = (function () {
           );
         }
         console.log("EDGE CASED");
-
-        // renders the board inrespensoive kasi naghahanap pa siya ng paglalagyan have to fix this latre
       }
     }
-    // make invincible
   };
 
   const getRandomInt = () => {
@@ -456,21 +441,17 @@ const gameBoard = (function () {
   const checkWinner = () => {
     let tieCount = 0;
     board.forEach((row) => {
-      //horizontal winner
-      // console.log(row);
       if (row.every(horizontalWinner)) {
         console.log("victory! horizontal");
         endGame();
       }
 
-      // checking invdividually, should check all as is
       if (row.every(checkTie)) {
         tieCount++;
         if (tieCount === 3) {
           gameStatusBarText.textContent = "It's a Tie";
           gameStatusBarSymbol.style.display = "none";
 
-          // reset game here
           playAgainBtn.classList.toggle("hidden");
           changeModeBtn.classList.toggle("hidden");
           playerOneMainLabel.classList.toggle("hidden");
@@ -483,7 +464,7 @@ const gameBoard = (function () {
     let colOneElements = 0,
       colTwoElements = 0,
       colThreeElements = 0;
-    //  vertical winner
+
     for (let i = 0; i < board.length; i++) {
       if (board[i][0] === prevSymbol) {
         colOneElements++;
@@ -509,7 +490,6 @@ const gameBoard = (function () {
       }
     }
 
-    // diagonal winner
     if (
       (board[0][0] === prevSymbol &&
         board[1][1] === prevSymbol &&
@@ -527,7 +507,6 @@ const gameBoard = (function () {
     return element === prevSymbol;
   };
 
-  // after winning buttons
   const playAgainBtn = document.querySelector("#playAgainBtn");
   const changeModeBtn = document.querySelector("#changeModeBtn");
 
@@ -556,7 +535,7 @@ const gameBoard = (function () {
     playerWin = true;
     gameStatusBarText.textContent = `${currentPlayer.playerName} won!`;
     gameStatusBarSymbol.textContent = prevSymbol;
-    // playAgainBtn.classList.toggle("hidden");
+
     playAgainBtnAI.classList.toggle("hidden");
     changeModeBtn.classList.toggle("hidden");
     playerOneMainLabel.classList.toggle("hidden");
@@ -576,28 +555,24 @@ const gameBoard = (function () {
       piece.clicked = false;
     });
   };
-  // TODO: Reset Game
+
   const resetGame = () => {
-    // reseting the board
     board = [
       ["", "", ""],
       ["", "", ""],
       ["", "", ""],
     ];
 
-    // reseting the game
     gameBoardPieces.forEach((piece, index) => {
       piece.clicked = false;
       piece.textContent = "";
     });
 
-    // hide the shit
     playAgainBtn.classList.toggle("hidden");
     changeModeBtn.classList.toggle("hidden");
     playerOneMainLabel.classList.toggle("hidden");
     playerTwoMainLabel.classList.toggle("hidden");
 
-    // initialize game
     gameStatusBarText.textContent = `${playerOne.playerName}'s turn`;
     gameStatusBarSymbol.textContent = playerOne.playerSymbol;
 
@@ -607,8 +582,6 @@ const gameBoard = (function () {
     }
     currentSymbol = playerOne.playerSymbol;
     currentPlayer = playerOne;
-
-    // toggleLabels();
   };
 
   const resetGameAI = () => {
@@ -618,7 +591,6 @@ const gameBoard = (function () {
       ["", "", ""],
     ];
 
-    // reseting the game
     gameBoardPieces.forEach((piece, index) => {
       piece.clicked = false;
       piece.textContent = "";
@@ -668,9 +640,7 @@ const boardMenu = (function () {
     playerInformation.classList.remove("hidden");
   };
 
-  modeAI.onclick = () => {
-    // Immediately start the game
-  };
+  modeAI.onclick = () => {};
   const changeMode = () => {
     playerGameMenu.classList.toggle("hidden");
     playerInformation.classList.add("hidden");
@@ -704,9 +674,6 @@ const boardMenu = (function () {
     playerTwoNameLabel.value = playerTwo.playerName;
     playerTwoSymbolLabel.textContent = playerTwo.playerSymbol;
   };
-  // startGameButton.onclick = () => {
-  //   showPlayerLabels();
-  // };
 
   return {
     playerOneNameLabel,
@@ -744,7 +711,6 @@ boardMenu.changeModeBtn.onclick = () => {
 };
 
 boardMenu.modeAI.onclick = () => {
-  // show menu
   startGameButton.classList.toggle("hidden");
   gameBoard.resetGameAI();
   playerInfo.createNewPlayersAI();
@@ -752,16 +718,6 @@ boardMenu.modeAI.onclick = () => {
   boardMenu.playerGameMenu.classList.toggle("hidden");
   boardMenu.showPlayerLabelsAI();
 
-  // functionality first, after na yung menu
-  // initialize player one
   gameBoard.playerOneAI();
   gameBoard.addClickAI();
-  // try to randomize
 };
-// TODO Deadline: before 3 pm
-// TODO: Show Options, make options work
-//
-// TODO: highlight winning tiles
-
-// TODO: fix winning screen implementation
-// TODO: Implement AI , probably use setTimeout method when implementing
