@@ -130,12 +130,20 @@ const playerInfo = (function () {
   // startGameButton.onclick = () => {
 
   // };
+  const createNewPlayersAI = () => {
+    playerOne.playerName = "You";
+    playerOne.playerSymbol = "X";
+
+    playerTwo.playerName = "AI";
+    playerTwo.playerSymbol = "O";
+  };
 
   return {
     activeSymbol,
     playerVerify,
     createPlayer,
     createNewPlayers,
+    createNewPlayersAI,
     playerOne,
     playerTwo,
     startGameButton,
@@ -197,6 +205,11 @@ const gameBoard = (function () {
     gameStatusBarSymbol.textContent = playerOne.playerSymbol;
   };
 
+  const setCurrentPlayerAI = () => {
+    gameStatusBarText.textContent = `Your turn`;
+    gameStatusBarSymbol.textContent = playerOne.playerSymbol;
+  };
+
   // game Status Bar
   const gameStatusBar = document.querySelector("#gameStatusBar");
   const gameStatusBarText = document.querySelector("#gameStatusBarText");
@@ -209,6 +222,20 @@ const gameBoard = (function () {
     gameStatusBarSymbol.textContent = currentSymbol;
   };
 
+  const updateStatusBarAI = () => {
+    if (currentPlayer.playerName === "You" && !playerWin) {
+      gameStatusBarText.textContent = `Your turn`;
+    } else {
+      if (!playerWin) {
+        gameStatusBarText.textContent = `AI's turn`;
+
+        setTimeout(() => {
+          gameStatusBarText.textContent = `Your turn`;
+        }, 500);
+      }
+    }
+    gameStatusBarSymbol.textContent = currentSymbol;
+  };
   const checkClick = (clicked) => {
     if (clicked === true) return;
   };
@@ -247,16 +274,26 @@ const gameBoard = (function () {
     playerOne.playerSymbol = "X";
     currentSymbol = "X";
   };
+  const gameBoardRowOne = document.querySelectorAll(".gameboard__row--1");
+  const gameBoardRowTwo = document.querySelectorAll(".gameboard__row--2");
+  const gameBoardRowThree = document.querySelectorAll(".gameboard__row--3");
+
+  console.log([...gameBoardRowOne][0]);
+  console.log([...gameBoardRowTwo][1]);
+  console.log([...gameBoardRowThree][2]);
 
   const addClickAI = () => {
+    currentSymbol = "X";
+    let tieCount = 0,
+      playerWin = false;
     gameBoardPieces.forEach((piece, index) => {
       piece.onclick = () => {
         if (piece.clicked === true) {
           return;
         }
 
-        piece.clicked = true;
         piece.textContent = currentSymbol;
+        piece.clicked = true;
 
         if (index >= 0 && index <= 2) {
           board[0].splice(index, 1, currentSymbol);
@@ -269,20 +306,142 @@ const gameBoard = (function () {
           console.log(`${index} added row three`);
         }
 
-        moveAI();
+        switchSymbol();
+        checkAIWinner();
+
+        board.forEach((row) => {
+          if (row.every(checkTie)) {
+            tieCount++;
+            console.log(`Tie Count: ${tieCount}`);
+            if (tieCount > 3) {
+              // alert("tied");
+              return;
+            }
+          }
+        });
+
+        if (tieCount < 4 && !playerWin) {
+          moveAI();
+          updateStatusBarAI();
+          setTimeout(() => toggleLabels(), 500);
+          checkAIWinner();
+        }
+        switchSymbol();
+        toggleLabels();
+        checkAIWinner();
       };
     });
   };
-  const fieldThree = document.querySelector("#fieldThree");
-  const moveAI = () => {
-    // make legal move
-    const arrIndex = getRandomInt();
-    const elemIndex = getRandomInt();
 
-    if (board[arrIndex][elemIndex] !== "X") {
-      fieldThree.textContent = "O";
-      board[arrIndex].splice(elemIndex, 1, "O");
-      console.log(board);
+  const checkAIWinner = () => {
+    prevSymbol = "X";
+    let tieCount = 0;
+
+    let colOneElements = 0,
+      colTwoElements = 0,
+      colThreeElements = 0;
+    //  vertical winner
+    console.log(currentSymbol, prevSymbol);
+    for (let i = 0; i < board.length; i++) {
+      if (board[i][0] === "X") {
+        colOneElements++;
+        console.log(`COL ONE: ${colOneElements} ${prevSymbol}`);
+        if (colOneElements === 3) {
+          console.log("victory col one");
+          endGameAI();
+        }
+      } else if (board[i][1] === "X") {
+        colTwoElements++;
+        console.log(`COL TWO: ${colTwoElements} ${prevSymbol}`);
+        if (colTwoElements === 3) {
+          console.log("victory! col two");
+          endGameAI();
+        }
+      } else if (board[i][2] === "X") {
+        colThreeElements++;
+        console.log(`COL THREE: ${colThreeElements} ${prevSymbol}`);
+        if (colThreeElements === 3) {
+          console.log("victory! col three");
+          endGameAI();
+        }
+      }
+    }
+
+    // diagonal winner
+    if (
+      (board[0][0] === prevSymbol &&
+        board[1][1] === prevSymbol &&
+        board[2][2] === prevSymbol) ||
+      (board[0][2] === prevSymbol &&
+        board[1][1] === prevSymbol &&
+        board[2][0] === prevSymbol)
+    ) {
+      console.log("victory diagonal");
+      endGameAI();
+    }
+  };
+  const getLegitNumbers = () => {
+    arrIndex = getRandomInt();
+    elemIndex = getRandomInt();
+  };
+
+  const makeMove = () => {};
+  const moveAI = () => {
+    getLegitNumbers();
+    if (!playerWin) {
+      if (
+        board[arrIndex][elemIndex] !== "X" &&
+        board[arrIndex][elemIndex] !== "O"
+      ) {
+        board[arrIndex].splice(elemIndex, 1, "O");
+        if (arrIndex === 0) {
+          setTimeout(
+            () => ([...gameBoardRowOne][elemIndex].textContent = "O"),
+            500
+          );
+          [...gameBoardRowOne][elemIndex].clicked = true;
+        } else if (arrIndex === 1) {
+          setTimeout(
+            () => ([...gameBoardRowTwo][elemIndex].textContent = "O"),
+            500
+          );
+          [...gameBoardRowTwo][elemIndex].clicked = true;
+        } else if (arrIndex === 2) {
+          setTimeout(
+            () => ([...gameBoardRowThree][elemIndex].textContent = "O"),
+            500
+          );
+          [...gameBoardRowThree][elemIndex].clicked = true;
+        }
+      } else {
+        do {
+          getLegitNumbers();
+          // console.log(arrIndex, elemIndex);
+          console.table(board);
+        } while (board[arrIndex][elemIndex] !== "");
+
+        board[arrIndex].splice(elemIndex, 1, "O");
+        // console.table(board);
+        if (arrIndex === 0) {
+          setTimeout(
+            () => ([...gameBoardRowOne][elemIndex].textContent = "O"),
+            500
+          );
+        } else if (arrIndex === 1) {
+          setTimeout(
+            () => ([...gameBoardRowTwo][elemIndex].textContent = "O"),
+            500
+          );
+        } else if (arrIndex === 2) {
+          setTimeout(
+            () => ([...gameBoardRowThree][elemIndex].textContent = "O"),
+            500
+          );
+        }
+        console.log("EDGE CASED");
+
+        // renders the board inrespensoive kasi naghahanap pa siya ng paglalagyan have to fix this latre
+      }
     }
     // make invincible
   };
@@ -293,7 +452,7 @@ const gameBoard = (function () {
   const checkTie = (element) => {
     return element !== "";
   };
-  let gameTie = false;
+
   const checkWinner = () => {
     let tieCount = 0;
     board.forEach((row) => {
@@ -390,6 +549,22 @@ const gameBoard = (function () {
     playerTwoMainLabel.classList.toggle("hidden");
     toggleLabels();
   };
+
+  const playAgainBtnAI = document.querySelector("#playAgainBtnAI");
+  playerWin = false;
+  const endGameAI = () => {
+    playerWin = true;
+    gameStatusBarText.textContent = `${currentPlayer.playerName} won!`;
+    gameStatusBarSymbol.textContent = prevSymbol;
+    // playAgainBtn.classList.toggle("hidden");
+    playAgainBtnAI.classList.toggle("hidden");
+    changeModeBtn.classList.toggle("hidden");
+    playerOneMainLabel.classList.toggle("hidden");
+    playerTwoMainLabel.classList.toggle("hidden");
+    clickAllPieces();
+    toggleLabels();
+  };
+
   const clickAllPieces = () => {
     gameBoardPieces.forEach((piece) => {
       piece.clicked = true;
@@ -435,6 +610,20 @@ const gameBoard = (function () {
 
     // toggleLabels();
   };
+
+  const resetGameAI = () => {
+    board = [
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+    ];
+
+    // reseting the game
+    gameBoardPieces.forEach((piece, index) => {
+      piece.clicked = false;
+      piece.textContent = "";
+    });
+  };
   return {
     addClick,
     checkWinner,
@@ -449,6 +638,9 @@ const gameBoard = (function () {
     removeClickAllPieces,
     addClickAI,
     playerOneAI,
+    setCurrentPlayerAI,
+    resetGameAI,
+    playAgainBtnAI,
   };
 })();
 
@@ -504,16 +696,26 @@ const boardMenu = (function () {
     playerInformation.classList.toggle("hidden");
     playerGameLabel.classList.toggle("hidden");
   };
-  startGameButton.onclick = () => {
-    showPlayerLabels();
+
+  const showPlayerLabelsAI = () => {
+    playerGameLabel.classList.toggle("hidden");
+    playerOneNameLabel.value = playerOne.playerName;
+    playerOneSymbolLabel.textContent = playerOne.playerSymbol;
+    playerTwoNameLabel.value = playerTwo.playerName;
+    playerTwoSymbolLabel.textContent = playerTwo.playerSymbol;
   };
+  // startGameButton.onclick = () => {
+  //   showPlayerLabels();
+  // };
 
   return {
     playerOneNameLabel,
     playerOneSymbolLabel,
     playerTwoNameLabel,
     playerTwoSymbolLabel,
+    playerGameMenu,
     showPlayerLabels,
+    showPlayerLabelsAI,
     changeModeBtn,
     changeMode,
     modeAI,
@@ -527,6 +729,7 @@ playerInfo.startGameButton.onclick = () => {
   boardMenu.showPlayerLabels();
   playerInfo.infoSubmit = true;
   gameBoard.gameStatusBar.classList.remove("hidden");
+  gameBoard.playAgainBtnAI.classList.add("hidden");
   gameBoard.removeClickAllPieces();
   gameBoard.getUpdatedInfo();
   gameBoard.setCurrentPlayer();
@@ -536,11 +739,18 @@ playerInfo.startGameButton.onclick = () => {
 
 boardMenu.changeModeBtn.onclick = () => {
   boardMenu.changeMode();
+  playAgainBtn.classList.toggle("hidden");
   gameBoard.clickAllPieces();
 };
 
 boardMenu.modeAI.onclick = () => {
   // show menu
+  startGameButton.classList.toggle("hidden");
+  gameBoard.resetGameAI();
+  playerInfo.createNewPlayersAI();
+  gameBoard.setCurrentPlayerAI();
+  boardMenu.playerGameMenu.classList.toggle("hidden");
+  boardMenu.showPlayerLabelsAI();
 
   // functionality first, after na yung menu
   // initialize player one
