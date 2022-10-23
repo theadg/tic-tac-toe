@@ -30,33 +30,33 @@
       <h1 class="gameboard__title">Tic Tac Toe</h1>
       <section class="gameboard">
         <div
-          class="gameboard__field gameboard__border--right"
+          class="gameboard__field gameboard__border--right gameboard__row--1"
           id="fieldOne"
         ></div>
-        <div class="gameboard__field" id="fieldTwo"></div>
+        <div class="gameboard__field gameboard__row--1" id="fieldTwo"></div>
         <div
-          class="gameboard__field gameboard__border--left"
+          class="gameboard__field gameboard__border--left gameboard__row--1"
           id="fieldThree"
         ></div>
         <div
-          class="gameboard__field gameboard__border--right gameboard__border--middle"
+          class="gameboard__field gameboard__border--right gameboard__border--middle gameboard__row--2"
           id="fieldFour"
         ></div>
         <div
-          class="gameboard__field gameboard__border--middle"
+          class="gameboard__field gameboard__border--middle gameboard__row--2"
           id="fieldFive"
         ></div>
         <div
-          class="gameboard__field gameboard__border--left gameboard__border--middle"
+          class="gameboard__field gameboard__border--left gameboard__border--middle gameboard__row--2"
           id="fieldSix"
         ></div>
         <div
-          class="gameboard__field gameboard__border--right"
+          class="gameboard__field gameboard__border--right gameboard__row--3"
           id="fieldSeven"
         ></div>
-        <div class="gameboard__field" id="fieldEight"></div>
+        <div class="gameboard__field gameboard__row--3" id="fieldEight "></div>
         <div
-          class="gameboard__field gameboard__border--left"
+          class="gameboard__field gameboard__border--left gameboard__row--3"
           id="fieldNine"
         ></div>
       </section>
@@ -196,9 +196,14 @@
           class="gameboard__button gameboard__button--mode hidden"
           id="playAgainBtn"
         >
-          <!-- <div class="gameboard__symbol--container"> -->
           <p>Play Again</p>
-          <!-- </div> -->
+        </button>
+
+        <button
+          class="gameboard__button gameboard__button--mode hidden"
+          id="playAgainBtnAI"
+        >
+          <p>Play Again AI</p>
         </button>
 
         <button
