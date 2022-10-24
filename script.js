@@ -305,7 +305,11 @@ const gameBoard = (function () {
             tieCount++;
             console.log(`Tie Count: ${tieCount}`);
             if (tieCount > 3) {
-              return;
+              gameStatusBarText.textContent = "It's a tie!";
+              playAgainBtnAI.classList.remove("hidden");
+              changeModeBtn.classList.remove("hidden");
+              playerOneMainLabel.classList.add("hidden");
+              playerTwoMainLabel.classList.add("hidden");
             }
           }
         });
@@ -330,7 +334,13 @@ const gameBoard = (function () {
       colTwoElements = 0,
       colThreeElements = 0;
 
-    console.log(currentSymbol, prevSymbol);
+    board.forEach((row) => {
+      if (row.every(horizontalWinner)) {
+        console.log("victory! horizontal");
+        endGameAI();
+      }
+    });
+
     for (let i = 0; i < board.length; i++) {
       if (board[i][0] === "X") {
         colOneElements++;
@@ -531,8 +541,8 @@ const gameBoard = (function () {
 
   const playAgainBtnAI = document.querySelector("#playAgainBtnAI");
   playerWin = false;
+
   const endGameAI = () => {
-    playerWin = true;
     gameStatusBarText.textContent = `${currentPlayer.playerName} won!`;
     gameStatusBarSymbol.textContent = prevSymbol;
 
@@ -542,12 +552,28 @@ const gameBoard = (function () {
     playerTwoMainLabel.classList.toggle("hidden");
     clickAllPieces();
     toggleLabels();
+    playerWin = true;
   };
 
   const clickAllPieces = () => {
     gameBoardPieces.forEach((piece) => {
       piece.clicked = true;
     });
+  };
+
+  playAgainBtnAI.onclick = () => {
+    playerWin = false;
+    resetGameAI();
+    toggleLabels();
+    // boardMenu.showPlayerLabelsAI();
+    playAgainBtnAI.classList.add("hidden");
+    changeModeBtn.classList.add("hidden");
+    playerInfo.createNewPlayersAI();
+    gameBoard.setCurrentPlayerAI();
+    gameBoard.playerOneAI();
+    gameBoard.addClickAI();
+    playerOneMainLabel.classList.remove("hidden");
+    playerTwoMainLabel.classList.remove("hidden");
   };
 
   const removeClickAllPieces = () => {
