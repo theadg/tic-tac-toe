@@ -301,6 +301,7 @@ const gameBoard = (function () {
         checkAIWinner();
 
         board.forEach((row) => {
+          tieCount = 0;
           if (row.every(checkTie)) {
             tieCount++;
             console.log(`Tie Count: ${tieCount}`);
@@ -373,6 +374,12 @@ const gameBoard = (function () {
       (board[0][2] === prevSymbol &&
         board[1][1] === prevSymbol &&
         board[2][0] === prevSymbol)
+    ) {
+      console.log("victory diagonal");
+      endGameAI();
+    } else if (
+      (board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O") ||
+      (board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O")
     ) {
       console.log("victory diagonal");
       endGameAI();
@@ -639,6 +646,7 @@ const gameBoard = (function () {
     setCurrentPlayerAI,
     resetGameAI,
     playAgainBtnAI,
+    playAgainBtn,
   };
 })();
 
@@ -666,7 +674,6 @@ const boardMenu = (function () {
     playerInformation.classList.remove("hidden");
   };
 
-  modeAI.onclick = () => {};
   const changeMode = () => {
     playerGameMenu.classList.toggle("hidden");
     playerInformation.classList.add("hidden");
@@ -738,6 +745,8 @@ boardMenu.changeModeBtn.onclick = () => {
 
 boardMenu.modeAI.onclick = () => {
   startGameButton.classList.toggle("hidden");
+  gameBoard.gameStatusBar.classList.remove("hidden");
+  gameBoard.playAgainBtn.classList.add("hidden");
   gameBoard.resetGameAI();
   playerInfo.createNewPlayersAI();
   gameBoard.setCurrentPlayerAI();
