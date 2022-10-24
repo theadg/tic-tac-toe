@@ -457,31 +457,28 @@ const gameBoard = (function () {
 
   const checkWinner = () => {
     let tieCount = 0;
-    board.forEach((row) => {
-      if (row.every(horizontalWinner)) {
-        console.log("victory! horizontal");
-        endGame();
-      }
-
-      if (row.every(checkTie)) {
-        tieCount++;
-        if (tieCount === 3) {
-          gameStatusBarText.textContent = "It's a Tie";
-          gameStatusBarSymbol.style.display = "none";
-
-          playAgainBtn.classList.toggle("hidden");
-          changeModeBtn.classList.toggle("hidden");
-          playerOneMainLabel.classList.toggle("hidden");
-          playerTwoMainLabel.classList.toggle("hidden");
-          toggleLabels();
-        }
-      }
-    });
 
     let colOneElements = 0,
       colTwoElements = 0,
       colThreeElements = 0;
 
+    board.forEach((row) => {
+      if (row.every(checkTie)) {
+        tieCount++;
+        if (tieCount === 3) {
+          playAgainBtn.classList.remove("hidden");
+          changeModeBtn.classList.remove("hidden");
+          playerOneMainLabel.classList.add("hidden");
+          playerTwoMainLabel.classList.add("hidden");
+
+          gameStatusBarText.textContent = "It's a FUCKING TIE";
+          gameStatusBarSymbol.style.display = "none";
+
+          toggleLabels();
+          toggleLabels();
+        }
+      }
+    });
     for (let i = 0; i < board.length; i++) {
       if (board[i][0] === prevSymbol) {
         colOneElements++;
@@ -518,6 +515,13 @@ const gameBoard = (function () {
       console.log("victory diagonal");
       endGame();
     }
+
+    board.forEach((row) => {
+      if (row.every(horizontalWinner)) {
+        console.log("victory! horizontal");
+        endGame();
+      }
+    });
   };
 
   const horizontalWinner = (element) => {
@@ -539,10 +543,11 @@ const gameBoard = (function () {
     clickAllPieces();
     gameStatusBarText.textContent = `${prevPlayer.playerName} won!`;
     gameStatusBarSymbol.textContent = prevSymbol;
-    playAgainBtn.classList.toggle("hidden");
-    changeModeBtn.classList.toggle("hidden");
-    playerOneMainLabel.classList.toggle("hidden");
-    playerTwoMainLabel.classList.toggle("hidden");
+    playAgainBtn.classList.remove("hidden");
+    changeModeBtn.classList.remove("hidden");
+    playerOneMainLabel.classList.add("hidden");
+    playerTwoMainLabel.classList.add("hidden");
+
     toggleLabels();
   };
 
