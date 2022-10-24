@@ -25,6 +25,7 @@ $border-width: 12px;
 }
 main {
   height: 100vh;
+  width: 100vw;
   @include flexCenter();
   flex-direction: column;
   font-family: "Lexend Deca", sans-serif;
@@ -237,4 +238,52 @@ main {
 #playerTwoMainLabel {
   opacity: 0.5;
 }
-// TODO: try to add animations
+
+@media screen and(max-width: 750px) {
+  .gameboard {
+    height: min(350px, 85vh);
+    width: min(350px, 85vw);
+
+    &__field {
+      @include flexCenter();
+      font-size: 4.5rem;
+    }
+    &__status {
+      // width: 350px;
+      gap: 1rem;
+      font-size: 1.25rem;
+      height: 60px;
+    }
+
+    &__footer {
+      width: min(350px, 85vw);
+    }
+    &__button {
+      width: 50px;
+    }
+    &__symbol {
+      height: 35px;
+      width: 35px;
+      // padding: 0 0.6rem;
+      font-size: 1.25rem;
+      @include flexCenter();
+    }
+    &__button {
+      gap: 0.25rem;
+      font-size: 1rem;
+    }
+    &__input {
+      font-size: 1rem;
+    }
+  }
+
+  .gameboard__title {
+    font-size: 3rem !important;
+  }
+
+  .material-symbols-outlined {
+    display: none !important;
+  }
+}
+
+// TODO: Make responsive!!!!
