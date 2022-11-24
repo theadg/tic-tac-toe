@@ -301,11 +301,10 @@ const gameBoard = (function () {
         checkAIWinner();
 
         board.forEach((row) => {
-          tieCount = 0;
           if (row.every(checkTie)) {
             tieCount++;
             console.log(`Tie Count: ${tieCount}`);
-            if (tieCount > 3) {
+            if (tieCount === 3) {
               gameStatusBarText.textContent = "It's a tie!";
               playAgainBtnAI.classList.remove("hidden");
               changeModeBtn.classList.remove("hidden");
@@ -315,7 +314,7 @@ const gameBoard = (function () {
           }
         });
 
-        if (tieCount < 4 && !playerWin) {
+        if (tieCount < 3 && !playerWin) {
           moveAI();
           updateStatusBarAI();
           setTimeout(() => toggleLabels(), 500);
@@ -324,6 +323,7 @@ const gameBoard = (function () {
         switchSymbol();
         toggleLabels();
         checkAIWinner();
+        tieCount = 0;
       };
     });
   };
