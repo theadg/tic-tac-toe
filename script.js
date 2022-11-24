@@ -216,16 +216,18 @@ const gameBoard = (function () {
   const updateStatusBarAI = () => {
     if (currentPlayer.playerName === "You" && !playerWin) {
       gameStatusBarText.textContent = `Your turn`;
+      gameStatusBarSymbol.textContent = "X";
     } else {
       if (!playerWin) {
         gameStatusBarText.textContent = `AI's turn`;
+        gameStatusBarSymbol.textContent = "O";
 
         setTimeout(() => {
           gameStatusBarText.textContent = `Your turn`;
+          gameStatusBarSymbol.textContent = "X";
         }, 500);
       }
     }
-    gameStatusBarSymbol.textContent = currentSymbol;
   };
   const checkClick = (clicked) => {
     if (clicked === true) return;
@@ -274,9 +276,10 @@ const gameBoard = (function () {
   console.log([...gameBoardRowThree][2]);
 
   const addClickAI = () => {
-    currentSymbol = "X";
+    (currentSymbol = "X"), (prevSymbol = "X");
     let tieCount = 0,
       playerWin = false;
+    count = 0;
     gameBoardPieces.forEach((piece, index) => {
       piece.onclick = () => {
         if (piece.clicked === true) {
@@ -288,78 +291,132 @@ const gameBoard = (function () {
 
         if (index >= 0 && index <= 2) {
           board[0].splice(index, 1, currentSymbol);
-          console.log(`${index} added row one`);
+          // console.log(`${index} added row one`);
         } else if (index >= 3 && index <= 5) {
           board[1].splice(index - 3, 1, currentSymbol);
-          console.log(`${index} added row two`);
+          // console.log(`${index} added row two`);
         } else if (index >= 6 && index <= 9) {
           board[2].splice(index - 6, 1, currentSymbol);
-          console.log(`${index} added row three`);
+          // console.log(`${index} added row three`);
         }
-
-        switchSymbol();
+        count++;
         checkAIWinner();
+        if (!playerWin) {
+          switchSymbol();
 
-        board.forEach((row) => {
-          if (row.every(checkTie)) {
-            tieCount++;
-            console.log(`Tie Count: ${tieCount}`);
-            if (tieCount === 3) {
-              gameStatusBarText.textContent = "It's a tie!";
-              playAgainBtnAI.classList.remove("hidden");
-              changeModeBtn.classList.remove("hidden");
-              playerOneMainLabel.classList.add("hidden");
-              playerTwoMainLabel.classList.add("hidden");
+          board.forEach((row) => {
+            if (playerWin) return;
+            if (row.every(checkTie)) {
+              tieCount++;
+              console.log(`Tie Count: ${tieCount}`);
+              if (tieCount === 3) {
+                gameStatusBarText.textContent = "It's a tie!";
+                playAgainBtnAI.classList.remove("hidden");
+                changeModeBtn.classList.remove("hidden");
+                playerOneMainLabel.classList.add("hidden");
+                playerTwoMainLabel.classList.add("hidden");
+              }
             }
-          }
-        });
+          });
 
-        if (tieCount < 3 && !playerWin) {
-          moveAI();
-          updateStatusBarAI();
-          setTimeout(() => toggleLabels(), 500);
-          checkAIWinner();
+          if (tieCount < 3 && !playerWin) {
+            moveAI();
+            checkAIWinner();
+            switchSymbol();
+            updateStatusBarAI();
+            setTimeout(() => toggleLabels(), 500);
+
+            toggleLabels();
+            tieCount = 0;
+          }
         }
-        switchSymbol();
-        toggleLabels();
-        checkAIWinner();
-        tieCount = 0;
       };
     });
   };
 
+  const moveAiWin = (count) => {
+    // count the moves
+    switch (
+      count
+      // horizontal:
+      // case 1:
+      //   board[0].splice(0, 1, "O");
+      //   [...gameBoardRowOne][0].textContent = "O";
+      //   console.table(board);
+      //   break;
+      // case 2:
+      //   board[0].splice(1, 1, "O");
+      //   [...gameBoardRowOne][1].textContent = "O";
+      //   console.table(board);
+      //   break;
+      // case 3:
+      //   board[0].splice(2, 1, "O");
+      //   [...gameBoardRowOne][2].textContent = "O";
+      //   console.table(board);
+      //   break;
+      // diagonal:
+      // case 1:
+      //   board[0].splice(0, 1, "O");
+      //   [...gameBoardRowOne][0].textContent = "O";
+      //   console.table(board);
+      //   break;
+      // case 2:
+      //   board[1].splice(1, 1, "O");
+      //   [...gameBoardRowTwo][1].textContent = "O";
+      //   console.table(board);
+      //   break;
+      // case 3:
+      //   board[2].splice(2, 1, "O");
+      //   [...gameBoardRowThree][2].textContent = "O";
+      //   console.table(board);
+      //   break;
+      // vertical:
+      // case 1:
+      //   board[0].splice(0, 1, "O");
+      //   [...gameBoardRowOne][0].textContent = "O";
+      //   console.table(board);
+      //   break;
+      // case 2:
+      //   board[1].splice(0, 1, "O");
+      //   [...gameBoardRowTwo][0].textContent = "O";
+      //   console.table(board);
+      //   break;
+      // case 3:
+      //   board[2].splice(0, 1, "O");
+      //   [...gameBoardRowThree][0].textContent = "O";
+      //   console.table(board);
+      //   break;
+    ) {
+    }
+  };
   const checkAIWinner = () => {
-    prevSymbol = "X";
-
+    console.log(prevSymbol, currentSymbol);
     let colOneElements = 0,
       colTwoElements = 0,
       colThreeElements = 0;
 
     board.forEach((row) => {
-      if (row.every(horizontalWinner)) {
+      if (row.every(horizontalWinnerAI)) {
         console.log("victory! horizontal");
         endGameAI();
       }
     });
 
     for (let i = 0; i < board.length; i++) {
-      if (board[i][0] === "X") {
+      if (board[i][0] === currentSymbol) {
         colOneElements++;
-        console.log(`COL ONE: ${colOneElements} ${prevSymbol}`);
         if (colOneElements === 3) {
           console.log("victory col one");
           endGameAI();
         }
-      } else if (board[i][1] === "X") {
+      } else if (board[i][1] === currentSymbol) {
         colTwoElements++;
-        console.log(`COL TWO: ${colTwoElements} ${prevSymbol}`);
         if (colTwoElements === 3) {
           console.log("victory! col two");
           endGameAI();
         }
-      } else if (board[i][2] === "X") {
+      } else if (board[i][2] === currentSymbol) {
         colThreeElements++;
-        console.log(`COL THREE: ${colThreeElements} ${prevSymbol}`);
         if (colThreeElements === 3) {
           console.log("victory! col three");
           endGameAI();
@@ -368,18 +425,12 @@ const gameBoard = (function () {
     }
 
     if (
-      (board[0][0] === prevSymbol &&
-        board[1][1] === prevSymbol &&
-        board[2][2] === prevSymbol) ||
-      (board[0][2] === prevSymbol &&
-        board[1][1] === prevSymbol &&
-        board[2][0] === prevSymbol)
-    ) {
-      console.log("victory diagonal");
-      endGameAI();
-    } else if (
-      (board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O") ||
-      (board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O")
+      (board[0][0] === currentSymbol &&
+        board[1][1] === currentSymbol &&
+        board[2][2] === currentSymbol) ||
+      (board[0][2] === currentSymbol &&
+        board[1][1] === currentSymbol &&
+        board[2][0] === currentSymbol)
     ) {
       console.log("victory diagonal");
       endGameAI();
@@ -390,7 +441,6 @@ const gameBoard = (function () {
     elemIndex = getRandomInt();
   };
 
-  const makeMove = () => {};
   const moveAI = () => {
     getLegitNumbers();
     if (!playerWin) {
@@ -527,7 +577,9 @@ const gameBoard = (function () {
   const horizontalWinner = (element) => {
     return element === prevSymbol;
   };
-
+  const horizontalWinnerAI = (element) => {
+    return element === currentSymbol;
+  };
   const playAgainBtn = document.querySelector("#playAgainBtn");
   const changeModeBtn = document.querySelector("#changeModeBtn");
 
@@ -562,6 +614,7 @@ const gameBoard = (function () {
     changeModeBtn.classList.toggle("hidden");
     playerOneMainLabel.classList.toggle("hidden");
     playerTwoMainLabel.classList.toggle("hidden");
+
     clickAllPieces();
     toggleLabels();
     playerWin = true;
