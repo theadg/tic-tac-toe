@@ -19,7 +19,7 @@ Build a Tic Tac Toe game that you can play in your browser.
 
 ### Links
 
-- Live Site URL: [https://theadg.github.io/admin-dashboard/]
+- Live Site URL: [https://theadg.github.io/tic-tac-toe/]
 
 ## My Process
 
